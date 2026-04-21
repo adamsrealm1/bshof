@@ -884,7 +884,7 @@ function fadeInMusic() {
   return new Promise(resolve => {
     music.volume = 0;
     music.play().catch(err => console.log('Music play failed:', err));
-    const targetVolume = 0.3;
+    const targetVolume = 0.1;
     const fadeSpeed = 0.05;
     const fadeInterval = setInterval(() => {
       music.volume = Math.min(targetVolume, music.volume + fadeSpeed);
