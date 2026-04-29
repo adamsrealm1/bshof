@@ -297,8 +297,8 @@ setTimeout(() => {
 /* End of Card Video settings. */
 
 
-    /* Hide placeholder cards 8-21 */
-    .card:nth-child(n+8) {
+    /* Hide placeholder cards 9-21 */
+    .card:nth-child(n+9) {
       display: none;
       pointer-events: none;
     }
@@ -642,140 +642,7 @@ setTimeout(() => {
       }
     }
 
-    /* Settings Modal Styles */
-    #settingsModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      z-index: 11000;
-      align-items: center;
-      justify-content: center;
-      animation: fadeIn 0.3s ease;
-    }
 
-    #settingsModal.show {
-      display: flex;
-    }
-
-    .settingsContent {
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      border-radius: 20px;
-      padding: 40px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.3);
-      animation: slideUp 0.5s ease;
-    }
-
-    .settingsHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.6);
-      padding-bottom: 15px;
-    }
-
-    .settingsHeader h2 {
-      margin: 0;
-      font-size: 1.8rem;
-      color: rgba(0, 0, 0, 0.8);
-      font-weight: 600;
-    }
-
-    .settingItem {
-      margin-bottom: 25px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: 0.3s;
-    }
-
-    .settingItem:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    .settingLabel {
-      font-weight: 600;
-      color: rgba(0, 0, 0, 0.8);
-      font-size: 1rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 28px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 28px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 22px;
-      width: 22px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    input:checked + .slider {
-      background: linear-gradient(135deg, #64C8FF, #FF64C8);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(22px);
-    }
-
-    .closeSettingsBtn {
-      background: none;
-      border: none;
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 1.8rem;
-      cursor: pointer;
-      transition: 0.3s;
-      padding: 0;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .closeSettingsBtn:hover {
-      color: rgba(0, 0, 0, 0.9);
-      transform: rotate(90deg);
-    }
 
   </style>
 </head>
@@ -786,7 +653,6 @@ setTimeout(() => {
   <nav>
     <a href="#">Home</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLScFin6A696pIaD8N0I-3lRIbl8W-SuZ1o16niUZbDZUlMY7xw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" >Submit yourself to BSHOF</a>
-    <a href="#" onclick="openSettings(event)">Settings</a>
     <a href="#" onclick="openCredits(event)">Credits</a>
   </nav>
 </header>
@@ -814,35 +680,7 @@ setTimeout(() => {
   </div>
 </div>
 
-<!-- Settings Modal -->
-<div id="settingsModal">
-  <div class="settingsContent">
-    <div class="settingsHeader">
-      <h2>Settings</h2>
-      <button class="closeSettingsBtn" onclick="closeSettings()">&times;</button>
-    </div>
 
-    <div class="settingItem">
-      <body>By switching these options, you agree that the site will use cookies to store/save your preferences.</body>
-    </div>
-    
-    <div class="settingItem">
-      <span class="settingLabel">Background Music</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="musicToggle" onchange="toggleMusic()">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="settingItem">
-      <span class="settingLabel">Card Videos</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="videosToggle" onchange="toggleVideos()">
-        <span class="slider"></span>
-      </label>
-    </div>
-  </div>
-</div>
 
 <h1>BS Hall Of Fame</h1>
 
@@ -907,8 +745,8 @@ setTimeout(() => {
   <div class="card">
     <div class="avatar" style="background-image:url('https://i.imgur.com/74o9eTd.jpeg');"></div>
     <div class="name">Ozymandias</div>
-    <div class="score">3D VFX Maker</div>
-    <div class="score">Vivify Maker</div>
+    <div class="score">3D VFX Artist</div>
+    <div class="score">Vivify Artist</div>
     <div class="score">Noodle Extensions Pro</div>
       <div class="link">
         <a href="#" style="color: var(--neon2); text-decoration:none; font-size:0.85rem;">Work in progress.</a>
@@ -961,9 +799,10 @@ setTimeout(() => {
     </div>
   </div>
   <div class="card">
-    <div class="avatar" style="background-image:url('https://i.imgur.com/placeholder.png');"></div>
-    <div class="name">8</div>
-    <div class="score">Custom Saber Artist</div>
+    <div class="avatar" style="background-image:url('https://i.imgur.com/IDWvf85.jpeg');"></div>
+    <div class="name">Mawntee</div>
+    <div class="score">Modchart Artist</div>
+    <div class="score">Collaborator on various modding projects, like <strong>EXS2, 743⁺Aether*✧ ˳ ⁎ ¹¹¹, and more!</strong></div>
   </div>
   <div class="card">
     <div class="avatar" style="background-image:url('https://i.imgur.com/placeholder.png');"></div>
@@ -1194,102 +1033,15 @@ function closeCustomPopup() {
   document.getElementById('customPopupOverlay').classList.remove('show');
 }
 
-function openSettings(event) {
-  event.preventDefault();
-  document.getElementById('settingsModal').classList.add('show');
-  loadSettings();
-}
 
-function closeSettings() {
-  document.getElementById('settingsModal').classList.remove('show');
-}
 
-// Cookie management functions
-function setCookie(name, value, days = 365) {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-}
 
-function getCookie(name, defaultValue = true) {
-  const nameEQ = name + "=";
-  const cookies = document.cookie.split(';');
-  for (let cookie of cookies) {
-    cookie = cookie.trim();
-    if (cookie.indexOf(nameEQ) === 0) {
-      return cookie.substring(nameEQ.length) === 'true';
-    }
-  }
-  return defaultValue;
-}
-
-function loadSettings() {
-  const musicEnabled = getCookie('musicEnabled', true);
-  const videosEnabled = getCookie('videosEnabled', true);
-  document.getElementById('musicToggle').checked = musicEnabled;
-  document.getElementById('videosToggle').checked = videosEnabled;
-}
-
-function toggleMusic() {
-  const isChecked = document.getElementById('musicToggle').checked;
-  setCookie('musicEnabled', isChecked);
-  
-  if (isChecked && unlocked) {
-    fadeInMusic();
-  } else {
-    fadeOutMusic();
-  }
-}
-
-function toggleVideos() {
-  const isChecked = document.getElementById('videosToggle').checked;
-  setCookie('videosEnabled', isChecked);
-  
-  if (!isChecked) {
-    // Pause all videos and remove hover effects
-    document.querySelectorAll('.card-video').forEach(video => {
-      video.pause();
-    });
-  }
-  
-  // Toggle visibility of hover effects
-  const style = document.getElementById('videoHoverStyle');
-  if (!isChecked) {
-    if (!style) {
-      const newStyle = document.createElement('style');
-      newStyle.id = 'videoHoverStyle';
-      newStyle.textContent = `
-        .card.has-video:hover .avatar,
-        .card.has-video:hover .name,
-        .card.has-video:hover .score,
-        .card:has(.card-video):hover .avatar,
-        .card:has(.card-video):hover .name,
-        .card:has(.card-video):hover .score {
-          opacity: 1 !important;
-        }
-        .card:hover .card-video {
-          opacity: 0 !important;
-        }
-      `;
-      document.head.appendChild(newStyle);
-    }
-  } else {
-    if (style) {
-      style.remove();
-    }
-  }
-}
 
 // Close popups when clicking outside
 window.addEventListener('click', (event) => {
   const customModal = document.getElementById('customPopupOverlay');
   if (event.target === customModal) {
     closeCustomPopup();
-  }
-  
-  const settingsModal = document.getElementById('settingsModal');
-  if (event.target === settingsModal) {
-    closeSettings();
   }
   
   const creditsModal = document.getElementById('creditsModal');
