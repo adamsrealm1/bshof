@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Beat Saber Hall of Fame</title>
+  <link rel="icon" type="image/x-icon" href="https://i.imgur.com/ECf8pN6.png" />
 
 <style>
 
@@ -78,7 +79,7 @@
 }
 
 .introAlmost {
-  animation: introDoneHold 15s ease-in-out forwards;
+  animation: introDoneHold 17s ease-in-out forwards;
 }
 
 .introEnterPrompt {
@@ -169,23 +170,40 @@
   <div class="introStage introFooter">Loading Footer <span class="loadingDots"><span>.</span><span>.</span><span>.</span></span></div>
   <div class="introStage introVideos">Loading Videos <span class="loadingDots"><span>.</span><span>.</span><span>.</span></span></div>
   <div class="introStage introAssets">Loading Assets <span class="loadingDots"><span>.</span><span>.</span><span>.</span></span></div>
-  <div class="introStage introAlmost">Done.</div>
+  <div class="introStage introAlmost">Loading complete,</div>
   <div class="introStage introEnterPrompt"><span>C</span><span>l</span><span>i</span><span>c</span><span>k</span><span>&nbsp;</span><span>t</span><span>o</span><span>&nbsp;</span><span>e</span><span>n</span><span>t</span><span>e</span><span>r</span></div>
 </div>
 
 <script>
 const introOverlay = document.getElementById('introOverlay');
 let introReady = false;
+let introRightClicks = 0;
+let introFinished = false;
 
 setTimeout(() => {
   introReady = true;
 }, 14000);
 
-introOverlay.addEventListener('click', () => {
-  if (!introReady) return;
-
+function enterSite() {
+  if (introFinished) return;
+  introFinished = true;
   introOverlay.classList.add('introLeaving');
   setTimeout(() => introOverlay.remove(), 600);
+}
+
+introOverlay.addEventListener('click', () => {
+  if (introReady) {
+    enterSite();
+  }
+});
+
+introOverlay.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+  introRightClicks += 1;
+
+  if (introRightClicks >= 2) {
+    enterSite();
+  }
 });
 </script>
 
@@ -263,6 +281,30 @@ introOverlay.addEventListener('click', () => {
     }
 
     nav a:hover::after { width:100%; }
+
+    .settingsButton {
+      color: white;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      margin-left: 20px;
+      padding: 0;
+      position: relative;
+    }
+
+    .settingsButton::after {
+      content:"";
+      position:absolute;
+      width:0;
+      height:2px;
+      left:0;
+      bottom:-4px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      transition:0.3s;
+    }
+
+    .settingsButton:hover::after { width:100%; }
 
     h1 {
       text-align:center;
@@ -357,6 +399,24 @@ introOverlay.addEventListener('click', () => {
       opacity: 0.7;
       transition: opacity 0.8s ease;
     }
+
+    body.profile-videos-off .card:hover .card-video {
+      opacity: 0;
+    }
+
+    body.profile-videos-off .card.has-video:hover .avatar,
+    body.profile-videos-off .card.has-video:hover .name,
+    body.profile-videos-off .card:has(.card-video):hover .avatar,
+    body.profile-videos-off .card:has(.card-video):hover .name {
+      opacity: 1;
+    }
+
+    body.profile-videos-off .card.has-video:hover .score,
+    body.profile-videos-off .card.has-video:hover .link,
+    body.profile-videos-off .card:has(.card-video):hover .score,
+    body.profile-videos-off .card:has(.card-video):hover .link {
+      opacity: 0.8;
+    }
     /* Hidden placeholder cards reserved for future Hall of Fame entries */
     .card:nth-child(n+9) {
       display: none;
@@ -440,6 +500,153 @@ introOverlay.addEventListener('click', () => {
 
     #creditsModal.show {
       display: flex;
+    }
+
+    #settingsModal,
+    #cookiePreferenceModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.72);
+      z-index: 11500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    #settingsModal.show,
+    #cookiePreferenceModal.show {
+      display: flex;
+    }
+
+    .settingsContent,
+    .cookiePreferenceContent {
+      width: min(92vw, 520px);
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(30, 135, 255, 0.35), rgba(5, 103, 232, 0.18));
+      backdrop-filter: blur(40px);
+      border: 2px solid var(--neon1);
+      border-radius: 18px;
+      box-shadow: 0 30px 70px rgba(42, 141, 255, 0.35);
+    }
+
+    .settingsHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .settingsHeader h2,
+    .cookiePreferenceContent h2 {
+      margin: 0;
+      color: var(--neon1);
+      font-size: 1.8rem;
+    }
+
+    .settingRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .settingRow:last-child {
+      border-bottom: 0;
+    }
+
+    .settingLabel {
+      font-weight: 700;
+      color: white;
+    }
+
+    .settingDescription,
+    .cookiePreferenceContent p {
+      margin: 6px 0 0;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .toggleSwitch {
+      position: relative;
+      display: inline-flex;
+      width: 62px;
+      height: 34px;
+      flex: 0 0 auto;
+    }
+
+    .toggleSwitch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggleSlider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      transition: 0.25s ease;
+    }
+
+    .toggleSlider::before {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: white;
+      transition: 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .toggleSwitch input:checked + .toggleSlider {
+      background: linear-gradient(135deg, var(--neon1), var(--neon2));
+    }
+
+    .toggleSwitch input:checked + .toggleSlider::before {
+      transform: translateX(28px);
+    }
+
+    .cookiePreferenceActions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .settingsActionBtn {
+      padding: 10px 22px;
+      border: 0;
+      border-radius: 999px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.16);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .settingsActionBtn.primary {
+      background: linear-gradient(135deg, var(--neon1), var(--neon2));
+    }
+
+    .settingsActionBtn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(42, 141, 255, 0.25);
     }
 
     .creditsContent {
@@ -810,6 +1017,12 @@ introOverlay.addEventListener('click', () => {
         text-align: center;
       }
 
+      .settingsButton {
+        margin-left: 0;
+        font-size: 0.9rem;
+        line-height: 1.3;
+      }
+
       h1 {
         margin: 24px 12px 16px;
         font-size: 2rem;
@@ -880,6 +1093,11 @@ introOverlay.addEventListener('click', () => {
       }
 
       nav a {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      .settingsButton {
         max-width: 100%;
         overflow-wrap: anywhere;
       }
@@ -961,8 +1179,51 @@ introOverlay.addEventListener('click', () => {
     <a href="#">Home</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLScFin6A696pIaD8N0I-3lRIbl8W-SuZ1o16niUZbDZUlMY7xw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" >Submit yourself to BSHOF</a>
     <a href="#" onclick="openCredits(event)">Credits</a>
+    <button class="settingsButton" type="button" onclick="openSettings()">Settings</button>
   </nav>
 </header>
+
+<!-- Settings modal markup -->
+<div id="settingsModal">
+  <div class="settingsContent">
+    <div class="settingsHeader">
+      <h2>Settings</h2>
+      <button class="closeBtn" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="settingRow">
+      <div>
+        <div class="settingLabel">Background Music</div>
+        <p class="settingDescription">Turn all site background music on or off.</p>
+      </div>
+      <label class="toggleSwitch" aria-label="Toggle background music">
+        <input id="bgMusicToggle" type="checkbox" checked>
+        <span class="toggleSlider"></span>
+      </label>
+    </div>
+    <div class="settingRow">
+      <div>
+        <div class="settingLabel">Profile Videos</div>
+        <p class="settingDescription">Turn hover profile videos on or off.</p>
+      </div>
+      <label class="toggleSwitch" aria-label="Toggle profile videos">
+        <input id="profileVideosToggle" type="checkbox" checked>
+        <span class="toggleSlider"></span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- Cookie preference prompt markup -->
+<div id="cookiePreferenceModal">
+  <div class="cookiePreferenceContent">
+    <h2>Save preference?</h2>
+    <p>Use cookies to remember these settings next time you visit?</p>
+    <div class="cookiePreferenceActions">
+      <button class="settingsActionBtn" type="button" onclick="declineSettingsCookies()">No</button>
+      <button class="settingsActionBtn primary" type="button" onclick="acceptSettingsCookies()">Yes</button>
+    </div>
+  </div>
+</div>
 
 <!-- Credits modal markup -->
 <div id="creditsModal">
@@ -1062,6 +1323,9 @@ introOverlay.addEventListener('click', () => {
    </div>
   </div>
   <div class="card">
+    <video class="card-video">
+      <source src="videos/ozymandias.mp4" type="video/mp4">
+    </video>
     <div class="avatar" style="background-image:url('https://i.imgur.com/74o9eTd.jpeg');"></div>
     <div class="name">Ozymandias</div>
     <div class="score">3D VFX Artist</div>
@@ -1319,13 +1583,22 @@ introOverlay.addEventListener('click', () => {
 
 <script>
 const music = document.getElementById("bgMusic");
-music.volume = 0.4;
+const bgMusicToggle = document.getElementById("bgMusicToggle");
+const profileVideosToggle = document.getElementById("profileVideosToggle");
+const SETTINGS_COOKIE_NAME = "bshofSettings";
+const DEFAULT_MUSIC_VOLUME = 0.4;
+music.volume = DEFAULT_MUSIC_VOLUME;
 
 const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
   (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && window.innerWidth <= 1024);
 
+let siteSettings = {
+  bgMusicOn: true,
+  profileVideosOn: true
+};
 let unlocked = false;
 let videoActivated = false;
+let musicFadeInterval = null;
 
 if (isMobileDevice) {
   document.getElementById('mobileNoticeOverlay').classList.add('show');
@@ -1338,10 +1611,13 @@ async function unlockAudio() {
   unlocked = true;
   videoActivated = true;
 
-  try {
-    await music.play();
-  } catch (e) {
-    console.log("Blocked:", e);
+  if (siteSettings.bgMusicOn) {
+    try {
+      music.muted = false;
+      await music.play();
+    } catch (e) {
+      console.log("Blocked:", e);
+    }
   }
 
   // Audio only needs to be unlocked once per page load.
@@ -1361,6 +1637,14 @@ function closeCredits() {
   document.getElementById('creditsModal').classList.remove('show');
 }
 
+function openSettings() {
+  document.getElementById('settingsModal').classList.add('show');
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('show');
+}
+
 function openCustomPopup(event, title, bodyText) {
   event.preventDefault();
   document.getElementById('popupTitle').textContent = title;
@@ -1375,6 +1659,119 @@ function closeCustomPopup() {
 function closeMobileNotice() {
   document.getElementById('mobileNoticeOverlay').classList.remove('show');
 }
+
+function getCookie(name) {
+  const cookiePrefix = `${name}=`;
+  const cookieParts = document.cookie.split(';');
+
+  for (const cookiePart of cookieParts) {
+    const cookie = cookiePart.trim();
+    if (cookie.startsWith(cookiePrefix)) {
+      return decodeURIComponent(cookie.slice(cookiePrefix.length));
+    }
+  }
+
+  return "";
+}
+
+function saveSettingsCookie() {
+  const value = encodeURIComponent(JSON.stringify(siteSettings));
+  document.cookie = `${SETTINGS_COOKIE_NAME}=${value}; max-age=31536000; path=/; SameSite=Lax`;
+}
+
+function deleteSettingsCookie() {
+  document.cookie = `${SETTINGS_COOKIE_NAME}=; max-age=0; path=/; SameSite=Lax`;
+}
+
+function loadSettingsCookie() {
+  const savedSettings = getCookie(SETTINGS_COOKIE_NAME);
+  if (!savedSettings) return;
+
+  try {
+    const parsedSettings = JSON.parse(savedSettings);
+    siteSettings = {
+      bgMusicOn: parsedSettings.bgMusicOn !== false,
+      profileVideosOn: parsedSettings.profileVideosOn !== false
+    };
+  } catch (error) {
+    console.log("Settings cookie failed to load:", error);
+  }
+}
+
+function syncSettingsControls() {
+  bgMusicToggle.checked = siteSettings.bgMusicOn;
+  profileVideosToggle.checked = siteSettings.profileVideosOn;
+}
+
+function pauseAllProfileVideos() {
+  document.querySelectorAll('.card-video').forEach(video => {
+    video.pause();
+    video.currentTime = 0;
+  });
+
+  document.querySelectorAll('.video-activation-popup').forEach(popup => {
+    popup.classList.remove('active');
+  });
+}
+
+function applySettings() {
+  document.body.classList.toggle('profile-videos-off', !siteSettings.profileVideosOn);
+
+  if (!siteSettings.bgMusicOn) {
+    if (musicFadeInterval) {
+      clearInterval(musicFadeInterval);
+      musicFadeInterval = null;
+    }
+
+    music.muted = true;
+    music.pause();
+    music.volume = 0;
+  } else {
+    music.muted = false;
+    music.volume = DEFAULT_MUSIC_VOLUME;
+
+    if (unlocked) {
+      music.play().catch(err => console.log('Music play failed:', err));
+    }
+  }
+
+  if (!siteSettings.profileVideosOn) {
+    pauseAllProfileVideos();
+  }
+}
+
+function promptSettingsCookieSave() {
+  document.getElementById('cookiePreferenceModal').classList.add('show');
+}
+
+function acceptSettingsCookies() {
+  saveSettingsCookie();
+  document.getElementById('cookiePreferenceModal').classList.remove('show');
+}
+
+function declineSettingsCookies() {
+  deleteSettingsCookie();
+  document.getElementById('cookiePreferenceModal').classList.remove('show');
+}
+
+function updateSetting(settingName, isEnabled) {
+  siteSettings[settingName] = isEnabled;
+  syncSettingsControls();
+  applySettings();
+  promptSettingsCookieSave();
+}
+
+loadSettingsCookie();
+syncSettingsControls();
+applySettings();
+
+bgMusicToggle.addEventListener('change', () => {
+  updateSetting('bgMusicOn', bgMusicToggle.checked);
+});
+
+profileVideosToggle.addEventListener('change', () => {
+  updateSetting('profileVideosOn', profileVideosToggle.checked);
+});
 
 
 
@@ -1392,6 +1789,11 @@ window.addEventListener('click', (event) => {
     closeCredits();
   }
 
+  const settingsModal = document.getElementById('settingsModal');
+  if (event.target === settingsModal) {
+    closeSettings();
+  }
+
   const mobileNotice = document.getElementById('mobileNoticeOverlay');
   if (event.target === mobileNotice) {
     closeMobileNotice();
@@ -1401,12 +1803,23 @@ window.addEventListener('click', (event) => {
 // Background music fade helpers
 function fadeOutMusic() {
   return new Promise(resolve => {
-    let currentVolume = music.volume;
+    if (!siteSettings.bgMusicOn) {
+      music.muted = true;
+      music.pause();
+      resolve();
+      return;
+    }
+
+    if (musicFadeInterval) {
+      clearInterval(musicFadeInterval);
+    }
+
     const fadeSpeed = 0.1;
-    const fadeInterval = setInterval(() => {
+    musicFadeInterval = setInterval(() => {
       music.volume = Math.max(0, music.volume - fadeSpeed);
       if (music.volume <= 0) {
-        clearInterval(fadeInterval);
+        clearInterval(musicFadeInterval);
+        musicFadeInterval = null;
         music.pause();
         resolve();
       }
@@ -1416,14 +1829,28 @@ function fadeOutMusic() {
 
 function fadeInMusic() {
   return new Promise(resolve => {
+    if (!siteSettings.bgMusicOn) {
+      music.muted = true;
+      music.pause();
+      music.volume = 0;
+      resolve();
+      return;
+    }
+
+    if (musicFadeInterval) {
+      clearInterval(musicFadeInterval);
+    }
+
+    music.muted = false;
     music.volume = 0;
     music.play().catch(err => console.log('Music play failed:', err));
-    const targetVolume = 0.4;
+    const targetVolume = DEFAULT_MUSIC_VOLUME;
     const fadeSpeed = 0.05;
-    const fadeInterval = setInterval(() => {
+    musicFadeInterval = setInterval(() => {
       music.volume = Math.min(targetVolume, music.volume + fadeSpeed);
       if (music.volume >= targetVolume) {
-        clearInterval(fadeInterval);
+        clearInterval(musicFadeInterval);
+        musicFadeInterval = null;
         resolve();
       }
     }, 30);
@@ -1445,10 +1872,19 @@ if (!isMobileDevice) {
   card.appendChild(popup);
   
   card.addEventListener('mouseenter', () => {
+    if (!siteSettings.profileVideosOn) {
+      popup.classList.remove('active');
+      video.pause();
+      video.currentTime = 0;
+      return;
+    }
+
     if (!videoActivated) {
       popup.classList.add('active');
     } else {
-      fadeOutMusic();
+      if (siteSettings.bgMusicOn) {
+        fadeOutMusic();
+      }
       video.play().catch(err => console.log('Video play failed:', err));
     }
   });
@@ -1458,7 +1894,9 @@ if (!isMobileDevice) {
     if (videoActivated) {
       video.pause();
       video.currentTime = 0;
-      fadeInMusic();
+      if (siteSettings.bgMusicOn) {
+        fadeInMusic();
+      }
     }
   });
 });
