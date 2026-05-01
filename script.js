@@ -2,7 +2,7 @@ const FALLBACK_AVATAR = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000
 
 const members = [
   {
-    name: "Star_Dev",
+    name: "Star",
     category: "Developer",
     avatar: "https://i.postimg.cc/PJhkSs3w/268459727.jpg",
     roles: ["Site Creator"],
